@@ -56,6 +56,9 @@ export interface LoaderOptions {
    * @deprecated See https://developers.google.com/maps/premium/overview, use `apiKey` instead.
    */
   client?: string;
+  
+  container?: object;
+  
   /**
    * In your application you can specify release channels or version numbers:
    *
@@ -144,7 +147,7 @@ export interface LoaderOptions {
    * For example, the following example localizes the map to the United Kingdom:
    *
    * ```
-   * const loader = Loader({apiKey, region: 'GB'});
+   * const loader = Loader({apiKey, document, region: 'GB'});
    * ```
    */
   region?: string;
@@ -210,6 +213,10 @@ export enum LoaderStatus {
  */
 export class Loader {
   private static instance: Loader;
+  
+  
+  public readonly container: object;
+  
   /**
    * See [[LoaderOptions.version]]
    */
@@ -289,6 +296,7 @@ export class Loader {
     authReferrerPolicy,
     channel,
     client,
+    container,
     id = DEFAULT_ID,
     language,
     libraries = [],
@@ -303,6 +311,7 @@ export class Loader {
     this.authReferrerPolicy = authReferrerPolicy;
     this.channel = channel;
     this.client = client;
+    this.container = container || document;
     this.id = id || DEFAULT_ID; // Do not allow empty string
     this.language = language;
     this.libraries = libraries;
@@ -412,7 +421,7 @@ export class Loader {
   }
 
   public deleteScript(): void {
-    const script = document.getElementById(this.id);
+    const script = this.container.getElementById(this.id);
     if (script) {
       script.remove();
     }
@@ -454,7 +463,7 @@ export class Loader {
    * Set the script on document.
    */
   private setScript(): void {
-    if (document.getElementById(this.id)) {
+    if (this.container.getElementById(this.id)) {
       // TODO wrap onerror callback for cases where the script was loaded elsewhere
       this.callback();
       return;
@@ -473,7 +482,7 @@ export class Loader {
       script.nonce = this.nonce;
     }
 
-    document.head.appendChild(script);
+    this.container.head.appendChild(script);
   }
 
   /**
