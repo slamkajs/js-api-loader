@@ -1,3 +1,4 @@
+Slamka
 # Google Maps JavaScript API Loader
 
 [![npm](https://img.shields.io/npm/v/@googlemaps/js-api-loader)](https://www.npmjs.com/package/@googlemaps/js-api-loader)
