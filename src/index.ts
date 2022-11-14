@@ -312,6 +312,7 @@ export class Loader {
     this.channel = channel;
     this.client = client;
     this.container = container || document;
+    debugger;
     this.id = id || DEFAULT_ID; // Do not allow empty string
     this.language = language;
     this.libraries = libraries;
